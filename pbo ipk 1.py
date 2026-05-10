@@ -42,6 +42,19 @@ class MataKuliah:
         return f"{self.nama_matkul} ({self.sks} SKS)"
 
 
+class KRS(Mahasiswa, Dosen, MataKuliah):
+    def __init__(self, mahasiswa):
+        self.mahasiswa = mahasiswa
+
+    def tampil_mahasiswa(self):
+        return self.mahasiswa.tampil_mahasiswa()
+
+    def tampil_matkul(self):
+        return [mk.tampil_matkul() for mk in self.mahasiswa.krs]
+
+    def tampil_krs(self):
+        return f"KRS {self.mahasiswa.nama}:\n" + "\n".join(self.tampil_matkul())
+
 class Penilaian:
     def __init__(self, matkul, angka):
         self.matkul = matkul
@@ -61,22 +74,7 @@ class Penilaian:
         return self.bobot * self.matkul.sks
     def tampil_nilai(self):
         return f"{self.matkul.nama_matkul} | {self.angka} | {self.huruf}"
-
-
-class KRS:
-    def __init__(self, mahasiswa):
-        self.mahasiswa = mahasiswa
-
-    def tampil_mahasiswa(self):
-        return self.mahasiswa.tampil_mahasiswa()
-
-    def tampil_matkul(self):
-        return [mk.tampil_matkul() for mk in self.mahasiswa.krs]
-
-    def tampil_krs(self):
-        return f"KRS {self.mahasiswa.nama}:\n" + "\n".join(self.tampil_matkul())
-
-
+        
 class KHS:
     def __init__(self, mahasiswa):
         self.mahasiswa = mahasiswa
