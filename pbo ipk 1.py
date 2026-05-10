@@ -16,6 +16,10 @@ class Mahasiswa:
         return f"{self.npm}|{self.nama}"
     def tampil_mahasiswa(self):
         return f"{self.npm} - {self.nama}"
+    def simpan_mahasiswa(mahasiswa_list):
+    with open(FILE_MAHASISWA, "w") as f:
+        for m in mahasiswa_list:
+            f.write(f"{m.nim}|{m.get_nama()}\n")
 
 
 class Dosen:
@@ -39,7 +43,10 @@ class MataKuliah:
 
     def tampil_matkul(self):
         return f"{self.nama_matkul} ({self.sks} SKS)"
-
+    def simpan_matkul(matkul_list):
+    with open(FILE_MATKUL, "w") as f:
+        for mk in matkul_list:
+            f.write(f"{mk.nama}|{mk.sks}\n")
 
 class Penilaian:
     def __init__(self, matkul, angka):
@@ -60,7 +67,11 @@ class Penilaian:
         return self.bobot * self.matkul.sks
     def tampil_nilai(self):
         return f"{self.matkul.nama_matkul} | {self.angka} | {self.huruf}"
-
+    def simpan_nilai(mahasiswa_list):
+    with open(FILE_NILAI, "w") as f:
+        for m in mahasiswa_list:
+            for n in m.nilai:
+                f.write(f"{m.nim}|{n.matkul.nama}|{n.angka}\n")
 
 class KRS:
     def __init__(self, mahasiswa):
@@ -74,7 +85,11 @@ class KRS:
 
     def tampil_krs(self):
         return f"KRS {self.mahasiswa.nama}:\n" + "\n".join(self.tampil_matkul())
-
+def simpan_krs(mahasiswa_list):
+    with open(FILE_KRS, "w") as f:
+        for m in mahasiswa_list:
+            for mk in m.krs:
+                f.write(f"{m.nim}|{mk.nama}\n")
 
 class KHS:
     def __init__(self, mahasiswa):
@@ -88,3 +103,11 @@ class KHS:
     def tampil(self):
         hasil = [n.tampil_nilai() for n in self.mahasiswa.nilai]
         return f"KHS {self.mahasiswa.nama}:\n" + "\n".join(hasil) + f"\nIPK: {round(self.hitung_ipk(), 2)}"
+
+    def simpan_semua(mahasiswa_list, matkul_list):
+    simpan_mahasiswa(mahasiswa_list)
+    simpan_matkul(matkul_list)
+    simpan_krs(mahasiswa_list)
+    simpan_nilai(mahasiswa_list)
+    
+
