@@ -17,6 +17,11 @@ class Mahasiswa:
     def tampil_mahasiswa(self):
         return f"{self.npm} - {self.nama}"
 
+def simpan_mahasiswa(mahasiswa_list):
+    with open(FILE_MAHASISWA, "w") as f:
+        for m in mahasiswa_list:
+            f.write(f"{m.npm}|{m.nama}\n")
+
 
 class Dosen:
     def __init__(self, nama):
@@ -27,6 +32,11 @@ class Dosen:
 
     def tampil_dosen(self):
         return f"Dosen: {self.nama}"
+
+def simpan_dosen(dosen_list):
+    with open(FILE_DOSEN, "w") as f:
+        for d in dosen_list:
+            f.write(f"{d.nama}\n")
 
 
 class MataKuliah:
@@ -39,6 +49,11 @@ class MataKuliah:
 
     def tampil_matkul(self):
         return f"{self.nama_matkul} ({self.sks} SKS)"
+
+def simpan_matkul(matkul_list):
+    with open(FILE_MATKUL, "w") as f:
+        for mk in matkul_list:
+            f.write(f"{mk.nama_matkul}|{mk.sks}\n")
 
 
 class Penilaian:
@@ -88,3 +103,4 @@ class KHS:
     def tampil(self):
         hasil = [n.tampil_nilai() for n in self.mahasiswa.nilai]
         return f"KHS {self.mahasiswa.nama}:\n" + "\n".join(hasil) + f"\nIPK: {round(self.hitung_ipk(), 2)}"
+
