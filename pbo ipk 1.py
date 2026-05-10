@@ -12,7 +12,6 @@ class Mahasiswa:
         self.nama = nama
         self.krs = []
         self.nilai = []
-    
     def tambah_mahasiswa(self):
         return f"{self.npm}|{self.nama}"
     def tampil_mahasiswa(self):
@@ -22,7 +21,7 @@ class Mahasiswa:
 class Dosen:
     def __init__(self, nama):
         self.nama = nama
-
+        
     def tambah_dosen(self):
         return f"{self.nama}"
 
