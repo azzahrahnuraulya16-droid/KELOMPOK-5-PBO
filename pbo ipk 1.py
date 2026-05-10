@@ -108,9 +108,9 @@ class Penilaian:
     def tampil_nilai(self):
         return f"{self.matkul.nama_matkul} | {self.angka} | {self.huruf}"
 
-def load_nilai(mahasiswa_list):
+def load_penilaian(mahasiswa_list):
     try:
-        with open(FILE_NILAI, "r") as f:
+        with open(FILE_PENILAIAN, "r") as f:
             for line in f:
                 npm, nama_mk, angka = line.strip().split("|")
                 angka = int(angka)
@@ -166,4 +166,21 @@ class KHS:
     def tampil(self):
         hasil = [n.tampil_nilai() for n in self.mahasiswa.nilai]
         return f"KHS {self.mahasiswa.nama}:\n" + "\n".join(hasil) + f"\nIPK: {round(self.hitung_ipk(), 2)}"
+
+def load_khs(mahasiswa_list, matkul_list):
+    try:
+        with open(FILE_KHS, "r") as f:
+            for line in f:
+                npm, nama_mk, nilai = line.strip().split("|")
+                for m in mahasiswa_list:
+                    if m.npm == npm:
+                        for mk in matkul_list:
+                            if mk.nama_matkul == nama_mk:
+                                # diasumsikan ada class Nilai(matkul, skor)
+                                m.nilai.append(Nilai(mk, float(nilai)))
+                                break
+                        break
+    except FileNotFoundError:
+        pass
+
 
