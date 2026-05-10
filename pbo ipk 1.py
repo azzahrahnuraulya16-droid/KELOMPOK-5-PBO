@@ -21,7 +21,17 @@ def simpan_mahasiswa(mahasiswa_list):
     with open(FILE_MAHASISWA, "w") as f:
         for m in mahasiswa_list:
             f.write(f"{m.npm}|{m.nama}\n")
-
+            
+def load_mahasiswa():
+    mahasiswa_list = []
+    try:
+        with open(FILE_MAHASISWA, "r") as f:
+            for line in f:
+                npm, nama = line.strip().split("|")
+                mahasiswa_list.append(mahasiswa_list(npm, nama))
+    except FileNotFoundError:
+        pass
+    return mahasiswa_list
 
 class Dosen:
     def __init__(self, nama):
@@ -37,6 +47,17 @@ def simpan_dosen(dosen_list):
     with open(FILE_DOSEN, "w") as f:
         for d in dosen_list:
             f.write(f"{d.nama}\n")
+
+def load_dosen():
+    dosen_list = []
+    try:
+        with open(FILE_DOSEN, "r") as f:
+            for line in f:
+                nama = line.strip()
+                dosen_list.append(dosen_list(nama))
+    except FileNotFoundError:
+        pass
+    return dosen_list
 
 
 class MataKuliah:
@@ -54,6 +75,17 @@ def simpan_matkul(matkul_list):
     with open(FILE_MATKUL, "w") as f:
         for mk in matkul_list:
             f.write(f"{mk.nama_matkul}|{mk.sks}\n")
+
+def load_matkul():
+    matkul_list = []
+    try:
+        with open(FILE_MATKUL, "r") as f:
+            for line in f:
+                nama, sks = line.strip().split("|")
+                matkul_list.append(matkul_list(nama, int(sks)))
+    except FileNotFoundError:
+        pass
+    return matkul_list
 
 
 class Penilaian:
@@ -76,6 +108,22 @@ class Penilaian:
     def tampil_nilai(self):
         return f"{self.matkul.nama_matkul} | {self.angka} | {self.huruf}"
 
+def load_nilai(mahasiswa_list):
+    try:
+        with open(FILE_NILAI, "r") as f:
+            for line in f:
+                npm, nama_mk, angka = line.strip().split("|")
+                angka = int(angka)
+                for m in mahasiswa_list:
+                    if m.npm == npm:
+                        for mk in m.krs:
+                            if mk.nama_matkul == nama_mk:
+                                m.nilai.append(Penilaian(mk, angka))
+                                break
+                        break
+    except FileNotFoundError:
+        pass
+
 
 class KRS:
     def __init__(self, mahasiswa):
@@ -89,6 +137,21 @@ class KRS:
 
     def tampil_krs(self):
         return f"KRS {self.mahasiswa.nama}:\n" + "\n".join(self.tampil_matkul())
+
+def load_krs(mahasiwa_list,matkul_list):
+    try:
+        with open(FILE_KRS, "r") as af:
+            for line f:
+                npm,nama_mk, sks = line.strip().split("|")
+                for m in mahasiswa_list:
+                    if m.npm == npm:
+                        for mk in matkul_list:
+                            mk.nama_matkul == nama_mk:
+                            m.krs.append(mk)
+                            break
+                        break 
+    except FileNotFoundError:
+        pass
 
 
 class KHS:
